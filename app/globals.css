@@ -1,26 +1,135 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #e7ebf1;
+  --foreground: #16202e;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: #16202e;
+  --color-workspace: #e7ebf1;
+  --color-signal: #1f4fd8;
+  --color-marker: #dce6ff;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-serif: var(--font-source-serif);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* ---------- The document ---------- */
+.nda-paper {
+  max-width: 8.5in;
+  margin: 0 auto;
+  background: #fff;
+  color: #16202e;
+  padding: 0.9in 0.95in;
+  font-family: var(--font-source-serif), Georgia, serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  box-shadow:
+    0 1px 2px rgb(22 32 46 / 0.08),
+    0 12px 32px -8px rgb(22 32 46 / 0.18);
+}
+.nda-paper p { margin: 0 0 0.6em; }
+.nda-paper a { color: #1f4fd8; text-decoration: underline; }
+.nda-title {
+  font-size: 22pt;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.1em;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid #16202e;
+}
+.nda-h2 { font-size: 11pt; font-weight: 700; margin: 0 0 0.5em; }
+.nda-section { margin-top: 1.3em; break-inside: avoid; }
+.nda-h3 { font-size: 13pt; font-weight: 600; margin: 0 0 0.1em; }
+.nda-hint { font-size: 9.5pt; font-style: italic; color: #5b6778; margin: 0 0 0.3em; }
+.nda-hint-cell { display: block; font-weight: 400; }
+.nda-muted { color: #5b6778; }
+
+.nda-val {
+  background: #dce6ff;
+  border-radius: 2px;
+  padding: 0 0.2em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  white-space: pre-wrap;
+  transition: background-color 0.4s;
+}
+.nda-val-empty {
+  background: transparent;
+  color: #8a94a3;
+  outline: 1px dashed #b9c2d0;
+  outline-offset: 1px;
+}
+
+.nda-checks { list-style: none; margin: 0; padding: 0; }
+.nda-check { display: flex; gap: 0.6em; margin-bottom: 0.4em; }
+.nda-box {
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  margin-top: 0.3em;
+  border: 1.5px solid #16202e;
+  border-radius: 2px;
+  font-size: 0.8em;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 700;
+}
+.nda-box-on { background: #16202e; color: #fff; }
+
+.nda-keep { margin-top: 1.6em; break-after: avoid; }
+.nda-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5em;
+  break-inside: avoid;
+  font-size: 10.5pt;
+}
+.nda-table th, .nda-table td {
+  border: 1px solid #b9c2d0;
+  padding: 0.5em 0.7em;
+  text-align: left;
+  vertical-align: top;
+}
+.nda-table thead th { text-align: center; background: #f1f4f9; }
+.nda-table tbody th { width: 28%; font-weight: 600; background: #f8fafc; }
+.nda-table td { width: 36%; min-height: 2em; }
+.nda-sig { height: 3.2em; }
+.nda-footer { margin-top: 2em; font-size: 9pt; color: #5b6778; }
+
+@media (max-width: 640px) {
+  .nda-paper { padding: 1.4rem 1.1rem; font-size: 10.5pt; }
+  .nda-title { font-size: 18pt; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nda-val { transition: none; }
+}
+
+/* ---------- Print / Save as PDF ---------- */
+@page { size: Letter; margin: 0.75in; }
+@media print {
+  html, body { background: #fff !important; }
+  .nda-paper {
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
+    margin: 0;
+  }
+  .nda-val { background: transparent; padding: 0; }
+  .nda-val-empty { outline: none; color: #8a94a3; }
+  .nda-paper a { color: inherit; text-decoration: none; }
+  * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
